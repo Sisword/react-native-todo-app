@@ -1,9 +1,9 @@
 import ToDoList from "./ToDoList";
-import AddTask from "./AddTask";
+import AddTaskScreen from "./AddTask";
 import Settings from "./Settings";
 
 export {
     ToDoList,
-    AddTask,
+    AddTaskScreen,
     Settings
 }

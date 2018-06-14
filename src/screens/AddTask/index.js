@@ -1,11 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TaskComponent} from '../../components/index'
 import CONST from "../../styles/CONST";
-import {Fab, Icon, List, ListItem} from 'native-base'
-import { width, height, totalSize } from 'react-native-dimension'
+import {Fab, List, Container, Header, Left, Body, Right, Button, Icon, Title} from 'native-base'
+import {width, height, totalSize} from 'react-native-dimension'
 
-export default class AddTask extends React.Component {
+export default class AddTaskScreen extends React.Component {
     constructor(props) {
         super(props);
 
@@ -59,10 +59,19 @@ export default class AddTask extends React.Component {
 
     }
 
+    header = () => {
+
+    }
+
 
     render() {
         return (
             <View style={styles.container}>
+
+                <Header
+                    style={CONST.header}>
+                    <Title style={{flex: 1, textAlignVertical: 'center'}}>Header</Title>
+                </Header>
 
                 <List dataArray={this.state.list}
                       showsVerticalScrollIndicator={false}
@@ -74,15 +83,11 @@ export default class AddTask extends React.Component {
                               hTime={item.hTime}
                               mTime={item.mTime}/>
                       }/>
-
-                <Fab
-                    direction="up"
-                    containerStyle={{}}
-                    style={{backgroundColor: '#a7314b'}}
-                    position="bottomRight"
-                    onPress={() => console.log('Fab')}>
-                    <Icon type={"Entypo"} name={"plus"}/>
-                </Fab>
+                <TouchableOpacity
+                    onPress={() => console.log('Fab')}
+                    style={styles.fab}>
+                    <Icon type={"Entypo"} name={"plus"} style={{color: CONST.colors.white}}/>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -94,7 +99,17 @@ const styles = StyleSheet.create({
         backgroundColor: CONST.colors.black,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: height(2)
     },
+    fab: {
+        height: height(8.5),
+        aspectRatio: 1,
+        backgroundColor: '#eb6c68',
+        position: 'absolute',
+        bottom: height(2),
+        right: width(3),
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: height(8) / 2
+    }
 });
 

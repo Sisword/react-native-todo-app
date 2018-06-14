@@ -1,7 +1,7 @@
 import React from 'react';
 import {StatusBar, I18nManager, Platform, Text} from 'react-native'
 import {Font, AppLoading, Asset} from 'expo'
-import AddTask from "./src/screens/AddTask";
+import RootNavigator from "./src/navigations/index";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -34,7 +34,7 @@ export default class App extends React.Component {
             )
         }
         return (
-            <AddTask/>
+            <RootNavigator/>
         )
     }
 

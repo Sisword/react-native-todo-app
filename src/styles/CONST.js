@@ -39,4 +39,10 @@ export default {
         justifyContent: 'center',
         alignItems: 'center',
     },
+
+    header: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: width(100),
+    }
 }
