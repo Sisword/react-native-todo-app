@@ -1,5 +1,4 @@
-import ADD_TASK from '../constants/task'
-import DELETE_TASK from '../constants/task'
+import { ADD_TASK, DELETE_TASK } from '../constants/task'
 
 const initialState = [
     {
@@ -9,7 +8,7 @@ const initialState = [
         mTime: 12,
     },
     {
-        title: 'Название задачи 2',
+        title: 'Название задачи 2 Название задачи 2 Название задачи 2 Название задачи 2 Название задачи 2 Название задачи 2',
         data: 'Сегодня',
         hTime: 12,
         mTime: 13,
@@ -37,8 +36,9 @@ const initialState = [
 export default function task(state = initialState, action) {
     switch (action.type) {
         case ADD_TASK:
-            return Array.concat(action.payload);
-
+            return state.concat(action.payload);
+        case DELETE_TASK:
+            return state.filter((item, id) => state[id] !== action.payload);
         default : return state
     }
 }

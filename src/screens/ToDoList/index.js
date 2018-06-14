@@ -6,14 +6,18 @@ import {Fab, List, Item, Header, Left, Input, Right, Button, Icon, Title} from '
 import {width, height, totalSize} from 'react-native-dimension'
 import { Text } from 'react-native'
 import { connect } from 'react-redux'
-
+import { bindActionCreators } from 'redux'
+import * as taskAction from '../../redux/actions/taskActions'
 
 class TodoListScreen extends React.Component {
     constructor(props) {
         super(props);
-
-        console.log(props)
     }
+
+    _deleteTask = (id) => {
+        this.props.taskAction.deleteTask(id);
+        console.log ('================================', this.props.task)
+    };
 
     render() {
         return (
@@ -37,9 +41,9 @@ class TodoListScreen extends React.Component {
 
                 <List dataArray={this.props.task}
                       showsVerticalScrollIndicator={false}
-                      renderRow={(item) =>
+                      renderRow={(item, sectionID, rowID) =>
                           <TaskComponent
-                              onPress={() => console.log("sdfdsf")}
+                              onPress={ () => this._deleteTask(rowID) }
                               title={item.title}
                               data={item.data}
                               hTime={item.hTime}
@@ -59,7 +63,11 @@ const mapStateToProps = state => ({
     task: JSON.parse(JSON.stringify(state.task)),
 });
 
-export default connect(mapStateToProps)(TodoListScreen)
+const mapDispatchToProps = dispatch => ({
+    taskAction: bindActionCreators(taskAction, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoListScreen)
 
 const styles = StyleSheet.create({
     container: {

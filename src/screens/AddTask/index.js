@@ -15,6 +15,7 @@ class AddTaskScreen extends React.Component {
         day: 'dd',
         hour: 'hh',
         minute: 'mm',
+        title: '',
 
         text: {
             title: 'Заголовок',
@@ -57,12 +58,13 @@ class AddTaskScreen extends React.Component {
     };
 
     _addTask = (title, data, hTime, mTime) => {
+
         this.props.taskAction.addTask(title, data, hTime, mTime);
         this.props.navigation.pop();
     };
 
     render() {
-        const {text, year, month, day, hour, minute, activeSwitch} = this.state;
+        const {text, year, month, day, hour, minute, activeSwitch, title} = this.state;
 
         return (
             <View style={styles.container}>
@@ -86,7 +88,7 @@ class AddTaskScreen extends React.Component {
                             <Label>
                                 {text.title}
                             </Label>
-                            <Input/>
+                            <Input onChangeText={ (text) => this.setState({title: text})}/>
                         </Item>
 
                         <View style={styles.reminder}>
@@ -125,7 +127,7 @@ class AddTaskScreen extends React.Component {
                         </View>
                     </Form>
                 </View>
-                <TouchableOpacity style={styles.saveButton}>
+                <TouchableOpacity onPress={ () => this._addTask(title, `${day}.${month}.${year}`, hour, minute) } style={styles.saveButton}>
                     <Text style={styles.textButton}>
                         {text.button}
                     </Text>
@@ -140,7 +142,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    taskAction: bindActionCreators(taskAction, dispatch)
+    taskAction: bindActionCreators(taskAction, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTaskScreen);
