@@ -5,7 +5,6 @@ export default class ToDoList extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>ToDoList</Text>
             </View>
         );
     }
