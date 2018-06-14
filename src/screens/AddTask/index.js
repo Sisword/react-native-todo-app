@@ -2,8 +2,10 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TaskComponent} from '../../components/index'
 import CONST from "../../styles/CONST";
-import {Fab, List, Container, Header, Left, Body, Right, Button, Icon, Title} from 'native-base'
+import {Fab, List, Item, Header, Left, Input, Right, Button, Icon, Title} from 'native-base'
 import {width, height, totalSize} from 'react-native-dimension'
+import { Text } from 'react-native'
+
 
 export default class AddTaskScreen extends React.Component {
     constructor(props) {
@@ -59,18 +61,24 @@ export default class AddTaskScreen extends React.Component {
 
     }
 
-    header = () => {
-
-    }
-
-
     render() {
         return (
             <View style={styles.container}>
 
-                <Header
+                <Header searchBar rounded
                     style={CONST.header}>
-                    <Title style={{flex: 1, textAlignVertical: 'center'}}>Header</Title>
+                    <Item style={{flex: 5}}>
+                        <Icon name="ios-search" />
+                        <Input placeholder="Search" />
+                    </Item>
+                    <Button transparent>
+                        <Text>Search</Text>
+                    </Button>
+                    <Right style={{flex: 1}}>
+                        <Button transparent>
+                            <Icon name='menu' onPress={ () => this.props.navigation.navigate('Settings')} />
+                        </Button>
+                    </Right>
                 </Header>
 
                 <List dataArray={this.state.list}
@@ -84,7 +92,7 @@ export default class AddTaskScreen extends React.Component {
                               mTime={item.mTime}/>
                       }/>
                 <TouchableOpacity
-                    onPress={() => console.log('Fab')}
+                    onPress={() => this.props.navigation.navigate('ToDoList')}
                     style={styles.fab}>
                     <Icon type={"Entypo"} name={"plus"} style={{color: CONST.colors.white}}/>
                 </TouchableOpacity>
