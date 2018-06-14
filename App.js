@@ -1,23 +1,56 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StatusBar, I18nManager, Platform, Text} from 'react-native'
+import {Font, AppLoading, Asset} from 'expo'
+import AddTask from "./src/screens/AddTask";
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            fontLoaded: false,
+            logged: false,
+            isReady: false
+        }
+    }
+
+
+    async componentDidMount() {
+        try {
+            Platform.OS === 'ios' ? StatusBar.setHidden(false) : StatusBar.setHidden(false);
+            I18nManager.allowRTL(false);
+            I18nManager.forceRTL(false);
+            StatusBar.setBackgroundColor('#80808080');
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    render() {
+        if (!this.state.fontLoaded && !this.state.isReady) {
+            return (
+                <AppLoading startAsync={() => this._cacheResourcesAsync()}
+                            onFinish={() => this.setState({isReady: true})}
+                            onError={console.warn}/>
+            )
+        }
+        return (
+            <AddTask/>
+        )
+    }
+
+    async _cacheResourcesAsync() {
+        const images = [];
+        await Font.loadAsync({
+            ProductSansRegular: require('./src/assets/fonts/ProductSansRegular.ttf'),
+
+        });
+
+        this.setState({fontLoaded: true});
+        const cacheImages = images.map((image) => {
+            return Asset.fromModule(image).downloadAsync()
+        });
+
+        return Promise.all(cacheImages)
+    }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

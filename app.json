@@ -1,5 +1,28 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Simple ToDo ",
+    "slug": "SimpleToDo",
+    "sdkVersion": "27.0.0",
+    "privacy": "unlisted",
+    "version": "0.0.1",
+    "platforms":["ios","android"],
+    "orientation":"portrait",
+    "icon": "./src/assets/icons/app-icon.png",
+    "splash": {
+      "backgroundColor": "#FFFFFF",
+      "image": "./src/assets/icons/app-icon.png"
+    },
+    "ios": {
+      "bundleIdentifier": "com.hotcactus.wallet1",
+      "icon": "./src/assets/icons/app-icon.png",
+      "buildNumber": "1"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#80808080"
+    },
+    "android": {
+      "package": "com.hotcactus.wallet",
+      "versionCode": 1
+    }
   }
 }
