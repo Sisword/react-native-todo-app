@@ -4,7 +4,7 @@ import {Container, Header, Left, Body, Right, Form, Item, Input, Label, Icon, Ti
 import {width, height} from 'react-native-dimension'
 import CONST from "../../styles/CONST";
 
-export default class AddTask extends React.Component {
+export default class AddTaskScreen extends React.Component {
 
     state = {
         year: 'yyyy',
