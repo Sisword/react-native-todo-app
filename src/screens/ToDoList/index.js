@@ -46,7 +46,7 @@ class TodoListScreen extends React.Component {
                               mTime={item.mTime}/>
                       }/>
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('ToDoList')}
+                    onPress={() => this.props.navigation.navigate('AddTask')}
                     style={styles.fab}>
                     <Icon type={"Entypo"} name={"plus"} style={{color: CONST.colors.white}}/>
                 </TouchableOpacity>
@@ -55,11 +55,9 @@ class TodoListScreen extends React.Component {
     }
 }
 
-function mapStateToProps(state){
-    return {
-        task: state.task
-    }
-}
+const mapStateToProps = state => ({
+    task: JSON.parse(JSON.stringify(state.task)),
+});
 
 export default connect(mapStateToProps)(TodoListScreen)
 

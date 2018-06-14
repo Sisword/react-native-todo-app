@@ -3,8 +3,11 @@ import {StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, TimePickerA
 import {Container, Header, Left, Body, Right, Form, Item, Input, Label, Icon, Title} from 'native-base';
 import {width, height} from 'react-native-dimension'
 import CONST from "../../styles/CONST";
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as taskAction from '../../redux/actions/taskActions'
 
-export default class AddTaskScreen extends React.Component {
+class AddTaskScreen extends React.Component {
 
     state = {
         year: 'yyyy',
@@ -53,6 +56,11 @@ export default class AddTaskScreen extends React.Component {
         }
     };
 
+    _addTask = (title, data, hTime, mTime) => {
+        this.props.taskAction.addTask(title, data, hTime, mTime);
+        this.props.navigation.pop();
+    };
+
     render() {
         const {text, year, month, day, hour, minute, activeSwitch} = this.state;
 
@@ -60,7 +68,7 @@ export default class AddTaskScreen extends React.Component {
             <View style={styles.container}>
                 <Header noShadow>
                     <Left style={styles.headerLeft}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={ () => this.props.navigation.pop() }>
                             <Icon type={'Ionicons'} name={'ios-arrow-back'} style={{color: CONST.colors.white,}}/>
                         </TouchableOpacity>
                     </Left>
@@ -126,6 +134,16 @@ export default class AddTaskScreen extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    task: JSON.parse(JSON.stringify(state.task)),
+});
+
+const mapDispatchToProps = dispatch => ({
+    taskAction: bindActionCreators(taskAction, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTaskScreen);
 
 const styles = StyleSheet.create({
     container: {
