@@ -18,7 +18,8 @@ export default class AddTaskScreen extends React.Component {
             date: 'Дата',
             header: 'Новая задача',
             time: 'Время',
-            reminder: 'Добавить напоминание'
+            reminder: 'Добавить напоминание',
+            button:'Сохранить'
         },
         activeSwitch: false
     };
@@ -116,6 +117,11 @@ export default class AddTaskScreen extends React.Component {
                         </View>
                     </Form>
                 </View>
+                <TouchableOpacity style={styles.saveButton}>
+                    <Text style={styles.textButton}>
+                        {text.button}
+                    </Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -162,5 +168,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         marginVertical: height(5)
+    },
+    saveButton:{
+        height:height(7.5),
+        width:width(90),
+        ...CONST.flexCenter,
+        backgroundColor:CONST.colors.gradientBlueLight,
+        margin:width(5),
+        alignSelf:'center'
+    },
+    textButton:{
+        color:CONST.colors.white,
+        fontSize:16
     }
 });
