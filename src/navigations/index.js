@@ -39,6 +39,6 @@ export default RootNavigator = createStackNavigator(Stack, {
     transitionConfig: () => ({
         containerStyle: {}
     }),
-    initialRouteName: 'AddTask',
+    initialRouteName: 'ToDoList',
     headerMode: 'screen',
 });

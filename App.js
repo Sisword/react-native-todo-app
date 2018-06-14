@@ -2,10 +2,18 @@ import React from 'react';
 import {StatusBar, I18nManager, Platform, Text} from 'react-native'
 import {Font, AppLoading, Asset} from 'expo'
 import RootNavigator from "./src/navigations/index";
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
+import reducers from './src/redux/reducers'
+
+const store = createStore(reducers);
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
+
+        console.log(props);
+
         this.state = {
             fontLoaded: false,
             logged: false,
@@ -34,7 +42,9 @@ export default class App extends React.Component {
             )
         }
         return (
-            <RootNavigator/>
+            <Provider store={store}>
+                <RootNavigator/>
+            </Provider>
         )
     }
 
