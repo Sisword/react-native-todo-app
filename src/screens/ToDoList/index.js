@@ -1,54 +1,71 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text, ListView} from 'react-native';
 import {TaskComponent} from '../../components/index'
 import CONST from "../../styles/CONST";
-import {Fab, List, Item, Header, Left, Input, Right, Button, Icon, Title} from 'native-base'
+import {Fab, List, Item, Header, Left, Input, Right, Button, Icon, ListItem} from 'native-base'
 import {width, height, totalSize} from 'react-native-dimension'
-import { Text } from 'react-native'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as taskAction from '../../redux/actions/taskActions'
 
 class TodoListScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     }
 
-    _deleteTask = (id) => {
-        this.props.taskAction.deleteTask(id);
-        console.log ('================================', this.props.task)
-    };
+    deleteRow(secId, rowId, rowMap) {
+
+        rowMap[`${secId}${rowId}`].props.closeRow();
+        this.props.taskAction.deleteTask(rowId);
+        this.setState({list: this.props.task});
+    }
 
     render() {
+
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
         return (
             <View style={styles.container}>
 
                 <Header searchBar rounded
                         style={CONST.header}>
                     <Item style={{flex: 5}}>
-                        <Icon name="ios-search" />
-                        <Input placeholder="Search" />
+                        <Icon name="ios-search"/>
+                        <Input placeholder="Search"/>
                     </Item>
                     <Button transparent>
                         <Text>Search</Text>
                     </Button>
                     <Right style={{flex: 1}}>
                         <Button transparent>
-                            <Icon name='menu' onPress={ () => this.props.navigation.navigate('Settings')} />
+                            <Icon name='menu' onPress={() => this.props.navigation.navigate('Settings')}/>
                         </Button>
                     </Right>
                 </Header>
 
-                <List dataArray={this.props.task}
-                      showsVerticalScrollIndicator={false}
-                      renderRow={(item, sectionID, rowID) =>
-                          <TaskComponent
-                              onPress={ () => this._deleteTask(rowID) }
-                              title={item.title}
-                              data={item.data}
-                              hTime={item.hTime}
-                              mTime={item.mTime}/>
-                      }/>
+                <List style={{}}
+                    dataSource={this.ds.cloneWithRows(this.props.task)}
+                    renderRow={data =>
+                        <TaskComponent
+                            onPress={() => console.log('sdf')}
+                            title={data.title}
+                            data={data.data}
+                            hTime={data.hTime}
+                            mTime={data.mTime}/>
+                    }
+                    renderLeftHiddenRow={data =>
+                        <Button full onPress={() => alert(data.title)}>
+                            <Icon active name="information-circle"/>
+                        </Button>}
+                    renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+                        <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                            <Icon active name="trash"/>
+                        </Button>}
+                    leftOpenValue={75}
+                    rightOpenValue={-75}
+                />
+
                 <TouchableOpacity
                     onPress={() => this.props.navigation.navigate('AddTask')}
                     style={styles.fab}>

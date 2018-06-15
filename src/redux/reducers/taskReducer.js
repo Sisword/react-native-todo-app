@@ -38,7 +38,9 @@ export default function task(state = initialState, action) {
         case ADD_TASK:
             return state.concat(action.payload);
         case DELETE_TASK:
-            return state.filter((item, id) => state[id] !== action.payload);
+            let newState = Object.assign([], state);
+            newState.splice(action.payload.id, 1);
+            return newState;
         default : return state
     }
 }
