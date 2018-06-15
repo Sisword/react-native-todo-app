@@ -1,4 +1,4 @@
-import { ADD_TASK, DELETE_TASK } from '../constants/task'
+import { ADD_TASK, DELETE_TASK, SEARCH } from '../constants/task'
 
 export function addTask(title, data, hTime, mTime) {
     return {
@@ -16,5 +16,4 @@ export function deleteTask(id) {
             id
         }
     }
-
 }

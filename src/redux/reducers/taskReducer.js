@@ -1,32 +1,32 @@
-import { ADD_TASK, DELETE_TASK } from '../constants/task'
+import { ADD_TASK, DELETE_TASK, SEARCH } from '../constants/task'
 
 const initialState = [
     {
-        title: 'Название задачи 1',
+        title: 'qa',
         data: 'Сегодня',
         hTime: 11,
         mTime: 12,
     },
     {
-        title: 'Название задачи 2 Название задачи 2 Название задачи 2 Название задачи 2 Название задачи 2 Название задачи 2',
+        title: 'aq',
         data: 'Сегодня',
         hTime: 12,
         mTime: 13,
     },
     {
-        title: 'Название задачи 4',
+        title: 'bbb b bbbbb',
         data: 'Сегодня',
         hTime: 9,
         mTime: 10,
     },
     {
-        title: 'Название задачи 5',
+        title: 'vvvv v vv vv',
         data: 'Сегодня',
         hTime: 16,
         mTime: 19,
     },
     {
-        title: 'Название задачи 6',
+        title: 'rrrr r rrr',
         data: 'Сегодня',
         hTime: 16,
         mTime: 19,

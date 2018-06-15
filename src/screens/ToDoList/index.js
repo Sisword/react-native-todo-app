@@ -6,19 +6,19 @@ import {width, height, totalSize} from 'react-native-dimension'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as taskAction from '../../redux/actions/taskActions'
+import * as searchingAction from '../../redux/actions/searchingAction'
 
 class TodoListScreen extends React.Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     }
 
-    deleteRow(secId, rowId, rowMap) {
-
+    deleteRow = (secId, rowId, rowMap) => {
         rowMap[`${secId}${rowId}`].props.closeRow();
         this.props.taskAction.deleteTask(rowId);
-        this.setState({list: this.props.task});
-    }
+    };
 
     alertMess = (mess, secId, rowId, rowMap) => {
         Alert.alert(
@@ -30,9 +30,15 @@ class TodoListScreen extends React.Component {
             {cancelable: true})
     };
 
-    render() {
+    filterSearch = (text, stateTasks, stateSearching) => {
+        this.props.searchingAction.searchTask(text, stateTasks, stateSearching);
+    };
 
+
+    render() {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+        const { task, searching } = this.props;
 
         return (
             <View style={styles.container}>
@@ -41,7 +47,9 @@ class TodoListScreen extends React.Component {
                         style={CONST.header}>
                     <Item style={{flex: 5}}>
                         <Icon name="ios-search"/>
-                        <Input placeholder="Search"/>
+                        <Input
+                            onChangeText={(text) => this.filterSearch(text, task, searching)}
+                            placeholder="Search"/>
                     </Item>
                     <Button transparent>
                         <Text>Search</Text>
@@ -57,7 +65,7 @@ class TodoListScreen extends React.Component {
                     closeOnRowBeginSwipe={true}
                     showsVerticalScrollIndicator={false}
                     disableRightSwipe
-                    dataSource={this.ds.cloneWithRows(this.props.task)}
+                    dataSource={this.ds.cloneWithRows((searching.length > 0) ? searching : task)}
                     renderRow={(data, secId, rowId, rowMap) =>
                         <TouchableOpacity
                             onPress={() => this.alertMess(data.title, secId, rowId, rowMap)}
@@ -92,10 +100,12 @@ class TodoListScreen extends React.Component {
 
 const mapStateToProps = state => ({
     task: JSON.parse(JSON.stringify(state.task)),
+    searching: JSON.parse(JSON.stringify(state.searching)),
 });
 
 const mapDispatchToProps = dispatch => ({
     taskAction: bindActionCreators(taskAction, dispatch),
+    searchingAction: bindActionCreators(searchingAction, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoListScreen)
