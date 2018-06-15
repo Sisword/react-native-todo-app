@@ -43,7 +43,7 @@ class TodoListScreen extends React.Component {
                     </Right>
                 </Header>
 
-                <List style={{ marginVertical: height(2)}}
+                <List
                       closeOnRowBeginSwipe={true}
                       showsVerticalScrollIndicator={false}
                       disableRightSwipe
@@ -51,8 +51,8 @@ class TodoListScreen extends React.Component {
                       renderRow={data =>
                           <ListItem
                               itemDivider={false}
-                              style={{width: width(90), backgroundColor: 'transparent', borderBottomWidth: 0}}>
-                              <View style={{width: width(90), backgroundColor: CONST.colors.white, paddingHorizontal: width(2)}}>
+                              style={{width: width(100), backgroundColor: 'transparent', borderBottomWidth: 0.5}}>
+                              <View style={{width: width(90), paddingHorizontal: width(2)}}>
                                   <Text numberOfLines={2} style={styles.title}>{data.title}</Text>
                                   <Text numberOfLines={1}
                                         style={styles.time}>{`${data.data} в ${data.hTime}:${data.mTime}`}</Text>
