@@ -1,8 +1,7 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View, Text, ListView} from 'react-native';
-import {TaskComponent} from '../../components/index'
 import CONST from "../../styles/CONST";
-import {Fab, List, Item, Header, Left, Input, Right, Button, Icon, ListItem} from 'native-base'
+import {List, Item, Header, Left, Input, Right, Button, Icon, ListItem} from 'native-base'
 import {width, height, totalSize} from 'react-native-dimension'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -44,26 +43,28 @@ class TodoListScreen extends React.Component {
                     </Right>
                 </Header>
 
-                <List style={{}}
-                    dataSource={this.ds.cloneWithRows(this.props.task)}
-                    renderRow={data =>
-                        <TaskComponent
-                            onPress={() => console.log('sdf')}
-                            title={data.title}
-                            data={data.data}
-                            hTime={data.hTime}
-                            mTime={data.mTime}/>
-                    }
-                    renderLeftHiddenRow={data =>
-                        <Button full onPress={() => alert(data.title)}>
-                            <Icon active name="information-circle"/>
-                        </Button>}
-                    renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-                        <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
-                            <Icon active name="trash"/>
-                        </Button>}
-                    leftOpenValue={75}
-                    rightOpenValue={-75}
+                <List style={{ marginVertical: height(2)}}
+                      closeOnRowBeginSwipe={true}
+                      showsVerticalScrollIndicator={false}
+                      disableRightSwipe
+                      dataSource={this.ds.cloneWithRows(this.props.task)}
+                      renderRow={data =>
+                          <ListItem
+                              itemDivider={false}
+                              style={{width: width(90), backgroundColor: 'transparent', borderBottomWidth: 0}}>
+                              <View style={{width: width(90), backgroundColor: CONST.colors.white, paddingHorizontal: width(2)}}>
+                                  <Text numberOfLines={2} style={styles.title}>{data.title}</Text>
+                                  <Text numberOfLines={1}
+                                        style={styles.time}>{`${data.data} в ${data.hTime}:${data.mTime}`}</Text>
+                              </View>
+                          </ListItem>
+                      }
+                      renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+                          <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                              <Icon active name="trash"/>
+                          </Button>}
+                      leftOpenValue={75}
+                      rightOpenValue={-75}
                 />
 
                 <TouchableOpacity
@@ -103,5 +104,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: height(8) / 2
-    }
+    },
+    title: {
+        fontSize: totalSize(2.5),
+        color: CONST.colors.black,
+        width: '90%'
+    },
+    time: {
+        fontSize: totalSize(2),
+        color: CONST.colors.grey
+    },
 });
