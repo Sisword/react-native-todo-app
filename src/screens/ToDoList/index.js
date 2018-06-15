@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View, Text, ListView} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text, ListView, Alert} from 'react-native';
 import CONST from "../../styles/CONST";
-import {List, Item, Header, Left, Input, Right, Button, Icon, ListItem} from 'native-base'
+import {List, Item, Header, Input, Right, Button, Icon, ListItem} from 'native-base'
 import {width, height, totalSize} from 'react-native-dimension'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -19,6 +19,16 @@ class TodoListScreen extends React.Component {
         this.props.taskAction.deleteTask(rowId);
         this.setState({list: this.props.task});
     }
+
+    alertMess = (mess, secId, rowId, rowMap) => {
+        Alert.alert(
+            'Задача',
+            mess,
+            [{text: 'Удалить', onPress: () => this.deleteRow(secId, rowId, rowMap)},
+                {text: 'Понятно!'},
+            ],
+            {cancelable: true})
+    };
 
     render() {
 
@@ -44,27 +54,30 @@ class TodoListScreen extends React.Component {
                 </Header>
 
                 <List
-                      closeOnRowBeginSwipe={true}
-                      showsVerticalScrollIndicator={false}
-                      disableRightSwipe
-                      dataSource={this.ds.cloneWithRows(this.props.task)}
-                      renderRow={data =>
-                          <ListItem
-                              itemDivider={false}
-                              style={{width: width(100), backgroundColor: 'transparent', borderBottomWidth: 0.5}}>
-                              <View style={{width: width(90), paddingHorizontal: width(2)}}>
-                                  <Text numberOfLines={2} style={styles.title}>{data.title}</Text>
-                                  <Text numberOfLines={1}
-                                        style={styles.time}>{`${data.data} в ${data.hTime}:${data.mTime}`}</Text>
-                              </View>
-                          </ListItem>
-                      }
-                      renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-                          <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
-                              <Icon active name="trash"/>
-                          </Button>}
-                      leftOpenValue={75}
-                      rightOpenValue={-75}
+                    closeOnRowBeginSwipe={true}
+                    showsVerticalScrollIndicator={false}
+                    disableRightSwipe
+                    dataSource={this.ds.cloneWithRows(this.props.task)}
+                    renderRow={(data, secId, rowId, rowMap) =>
+                        <TouchableOpacity
+                            onPress={() => this.alertMess(data.title, secId, rowId, rowMap)}
+                            style={styles.item}>
+                            <View style={{flex: 14}}>
+                                <Text numberOfLines={1} style={styles.title}>{data.title}</Text>
+                                <Text numberOfLines={1}
+                                      style={styles.time}>{`${data.data} в ${data.hTime}:${data.mTime}`}</Text>
+                            </View>
+                            <View style={{flex: 1, ...CONST.flexCenter}}>
+                                <Icon name={"ios-arrow-dropright-outline"}/>
+                            </View>
+                        </TouchableOpacity>
+                    }
+                    renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+                        <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                            <Icon active name="trash"/>
+                        </Button>}
+                    leftOpenValue={75}
+                    rightOpenValue={-75}
                 />
 
                 <TouchableOpacity
@@ -113,5 +126,11 @@ const styles = StyleSheet.create({
     time: {
         fontSize: totalSize(2),
         color: CONST.colors.grey
+    },
+    item: {
+        width: width(100),
+        paddingHorizontal: width(2),
+        flexDirection: 'row',
+        paddingVertical: height(1.5)
     },
 });
